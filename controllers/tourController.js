@@ -57,7 +57,7 @@ exports.createTour = (req, res) => {
     JSON.stringify(tours),
     (err) => {
       res.status(201).json({
-        status: 'succes',
+        status: 'success',
         data: {
           tour: newTour,
         },
@@ -68,7 +68,7 @@ exports.createTour = (req, res) => {
 
 exports.updateTour = (req, res) => {
   res.status(200).json({
-    status: 'succes',
+    status: 'success',
     data: {
       tour: '<Updated tour here...',
     },
@@ -76,7 +76,7 @@ exports.updateTour = (req, res) => {
 };
 exports.deleteTour = (req, res) => {
   res.status(204).json({
-    status: 'succes',
+    status: 'success',
     data: null,
   });
 };
