@@ -12,7 +12,7 @@ exports.createTour = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: 'Invalid data sent!',
+      message: err,
     });
   }
 };
@@ -22,6 +22,7 @@ exports.getAllTours = async (req, res) => {
     const tours = await Tour.find();
     res.status(200).json({
       status: 'succes',
+      results: tours.length,
       data: {
         tours,
       },
