@@ -83,11 +83,18 @@ userSchema.methods.createPasswordResetToken = function () {
     .digest('hex');
 
   console.log({ resetToken }, this.passwordResetToken);
-  console.log('siemka tu jestem');
+
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
 };
+
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
