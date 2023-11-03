@@ -6,6 +6,8 @@ const userRouter = require('./routes/userRoutes');
 const tourRouter = require('./routes/tourRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const app = express();
 app.use(express.json()); //! middleware -> step between request and response
@@ -29,6 +31,12 @@ app.use(
     limit: '10kb',
   })
 );
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+// Data sanitization against XSS
+app.use(xss());
+
 app.use(express.static(`./public`));
 
 app.use((req, res, next) => {
