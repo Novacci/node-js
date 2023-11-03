@@ -8,6 +8,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const app = express();
 app.use(express.json()); //! middleware -> step between request and response
@@ -36,6 +37,19 @@ app.use(
 app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
 
 app.use(express.static(`./public`));
 
